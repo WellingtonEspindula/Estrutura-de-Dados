@@ -97,27 +97,35 @@ ptLSE *inserir(int numero, ptLSE *ptLista){
 		ptLista->prox = NULL;
 
 	} else {
-        /* Caso a lista não esteja vazia */
+
+	/* Caso a lista não esteja vazia */
+	
 		if (numero >= 0){
 	        	if ( (numero % 2) == 0){
-                        /* Se o número for positivo e par, insere no topo da lista.
-                        Ou seja, indica que a primeira posição será o novo elemento,
-                        e a próxima do novo elemento apontará pra lista já criada */
+                       
+		       		/* Se o número for positivo e par, insere no topo da lista.
+	                        Ou seja, indica que a primeira posição será o novo elemento,
+        	                e a próxima do novo elemento apontará pra lista já criada */
+
         	        	novo->prox = ptLista;
 		                ptLista = novo;
         	    	}
 			else {
-                /* Se o número for positivo e ímpar, o novo ocupará a última posição da lista.
-                E o próximo elemento do novo apontará para uma próxima posição nula */
+                		
+				/* Se o número for positivo e ímpar, o novo ocupará a última posição da lista.
+		                E o próximo elemento do novo apontará para uma próxima posição nula */
+
 				novo->prox = NULL;
 				retornaUltimoNo(ptLista)->prox = novo;
         		}
         	}
 		else {
-            /* Caso o número for negativo, insere no meio da lista.
-            Assim, pega o nó do meio da lista, e usando um ponteiro auxiliar, o põe no meio */
+			
+			/* Caso o número for negativo, insere no meio da lista.
+        		Assim, pega o nó do meio da lista, e usando um ponteiro auxiliar, o põe no meio */
+
 			ptLSE *aux;
-            aux = retornaNoMeio(ptLista);
+        		aux = retornaNoMeio(ptLista);
 			novo->prox = aux->prox;
 			aux->prox = novo;
 		}
