@@ -5,8 +5,8 @@
  * utilizando ponteiros em C.
  *  Dessa forma, o programa tem uma lista de uma estrutura dada, e o programa deverá:
  *      1) Inserir os elementos na lista.
- *	    2) Exibe a lista.
- *	    3) Destrói a lista.
+ *	2) Exibir a lista.
+ *	3) Destruir a lista.
  *  Para a inserção, o programa receberá como entrada um ponteiro e um número.
  * Se o número for positivo e par, o programa deve inseri-lo no início da lista;
  * se o número for positivo e impar, inserir no final da lista; e se o número for negativo, inserir
