@@ -4,7 +4,7 @@
  * Assim, o trabalho tem como finalidade a implementação de uma LSE (Lista Simplesmente Encadeada)
  * utilizando ponteiros em C.
  *  Dessa forma, o programa tem uma lista de uma estrutura dada, e o programa deverá:
- *      1) Inserir os elementos na lista.
+ *  1) Inserir os elementos na lista.
  *	2) Exibir a lista.
  *	3) Destruir a lista.
  *  Para a inserção, o programa receberá como entrada um ponteiro e um número.
@@ -26,26 +26,27 @@
 #include <stdbool.h>
 #include <math.h>
 
-typedef struct tipoNo ptLSE;
+typedef struct tipoNo ptLDEC;
 struct tipoNo{
 	int numero;
-	ptLSE *ant;
-	ptLSE *prox;
+	ptLDEC *ant;
+	ptLDEC *prox;
 };
 
 //PROTÓTIPOS
-ptLSE *inserir(int numero, ptLSE *ptLista);
-void exibe(ptLSE *ptLista);
-ptLSE *destroi(ptLSE *ptLista);
+ptLDEC *inserir(int numero, ptLDEC *ptLista);
+void exibe(ptLDEC *ptLista);
+void exibeInversoNum(ptLDEC *ptLista, int num);
+ptLDEC *destroi(ptLDEC *ptLista);
 
-ptLSE *inicializaLista(ptLSE *ptLista);
-ptLSE *retornaUltimoNo(ptLSE *ptLista);
-ptLSE *retornaNoMeio(ptLSE *ptLista);
+ptLDEC *inicializaLista(ptLDEC *ptLista);
+ptLDEC *retornaUltimoNo(ptLDEC *ptLista);
+ptLDEC *retornaNoMeio(ptLDEC *ptLista);
 void clear_screen();
 
 
 int main(){
-	ptLSE *ptLista = NULL;
+	ptLDEC *ptLista = NULL;
 
 	int entrada;
 	do{
@@ -54,7 +55,8 @@ int main(){
 		printf("0 - Sair\n");
 		printf("1 - Inserir\n");
 		printf("2 - Exibir lista\n");
-		printf("3 - Destruir lista\n");
+		printf("3 - Exibir lista inversa a partir de um numero\n");
+		printf("4 - Destruir lista\n");
 		scanf("%d", &entrada);
 		int valor;
 
@@ -65,9 +67,14 @@ int main(){
 				ptLista = inserir(valor, ptLista);
 				break;
 			case 2:
+			    printf("Digite o numero:\n");
+				scanf("%d", &valor);
+				exibeInversoNum(ptLista, valor);
+				break;
+            case 3:
 				exibe(ptLista);
 				break;
-			case 3:
+			case 4:
 				ptLista = destroi(ptLista);
 				break;
 		}
@@ -84,11 +91,11 @@ int main(){
  * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
  * \return Retorna lista com elementos inseridos
 */
-ptLSE *inserir(int numero, ptLSE *ptLista){
+ptLDEC *inserir(int numero, ptLDEC *ptLista){
 	// Novo elemento que será inserido na lista
-	ptLSE *novo;
+	ptLDEC *novo;
 	// aloca memória para o elemento
-	novo = (ptLSE*) malloc(sizeof(ptLSE));
+	novo = (ptLDEC*) malloc(sizeof(ptLDEC));
 	// adiciona o número na estrutura apontada pelo ponteiro
 	novo->numero = numero;
 
@@ -111,9 +118,12 @@ ptLSE *inserir(int numero, ptLSE *ptLista){
 	                        Ou seja, indica que a primeira posição será o novo elemento,
         	                e a próxima do novo elemento apontará pra lista já criada */
 
-                        novo->ant = ptLista->ant;
-        	        	novo->prox = ptLista;
-		                ptLista = novo;
+                                                        // O novo elemento será o novo topo ou novo início da lista
+                        ptLista->ant->prox = novo;      // O último elemento da lista terá como seu próximo elemento o novo início
+                        novo->ant = ptLista->ant;       // o anterior do novo início será o anterior do antigo início da lista
+        	        	novo->prox = ptLista;           // o novo início terá como sucessor o antigo início
+		                ptLista = novo;                 // o ptLista apontará para o novo início
+
         	    	}
 			else {
 
@@ -133,7 +143,7 @@ ptLSE *inserir(int numero, ptLSE *ptLista){
 			/* Caso o número for negativo, insere no meio da lista.
         		Assim, pega o nó do meio da lista, e usando um ponteiro auxiliar, o põe no meio */
 
-			ptLSE *aux;
+			ptLDEC *aux;
             aux = retornaNoMeio(ptLista);          // aux assumirá a posição (memória) do elemento do meio da lista
 			novo->prox = aux->prox;                // o próximo elemento do novo elemento será o próximo do elemento do meio
 			novo->ant = aux;                       // o elemento anterior do novo elemento será o próximo elemnto do meio
@@ -148,17 +158,18 @@ ptLSE *inserir(int numero, ptLSE *ptLista){
 /** \brief Método que exibe a lista
  * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
 */
-void exibe(ptLSE *ptLista){
-	ptLSE *aux;
+void exibe(ptLDEC *ptLista){
+	ptLDEC *aux;
 	aux = ptLista;
 
 	printf("\n----- LISTA -----\n");
 	/* Itera a lista, usando um ponteiro auxiliar, e exibe cada nó da lista */
-	do{
-		printf("%d\n", aux->numero);
-		aux = aux->prox;
-	} while (aux != ptLista);
-
+	if (ptLista != NULL){
+        do{
+            printf("%d\n", aux->numero);
+            aux = aux->prox;
+        } while (aux != ptLista);
+	}
 	printf("----- FIM DA LISTA -----\n");
 
     getchar(); //gambiarra para limpar o buffer e pausar a execução do programa em ambiente linux e windows.
@@ -166,21 +177,44 @@ void exibe(ptLSE *ptLista){
 
 }
 
-// FIXME HERE
+void exibeInversoNum(ptLDEC *ptLista, int num){
+    if (ptLista != NULL){
+        ptLDEC *aux = ptLista;
+        ptLDEC *ptPosNum = NULL;
+
+        do{
+            if (aux->numero == num){
+                ptPosNum = aux;
+            }
+            aux = aux->prox;
+        } while ((aux != ptLista) || (ptPosNum != NULL));
+
+        aux = ptPosNum;
+        do {
+            printf("%d\n", aux->numero);
+            aux = aux->ant;
+        } while (aux != ptPosNum);
+
+    }
+}
+
 /** \brief Método que destroi a lista e libera endereços de memoria alocados para a LSE
  * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
  * \return Retorna um ponteiro para a lista com todos os laços destruidos e os elementos liberados da memória
 */
-ptLSE *destroi(ptLSE *ptLista){
-    ptLSE *aux;
+ptLDEC *destroi(ptLDEC *ptLista){
+    if (ptLista != NULL){
+        ptLDEC *aux1 = ptLista;
+        ptLDEC *aux2;
 
-    while (ptLista != NULL){
-            aux = ptLista->prox;
-            free(ptLista);
-            ptLista = aux;
+        do{
+            aux2 = aux1;
+            aux1 = aux1->prox;
+            free(aux2);
+        } while (aux1 != ptLista);
     }
 
-    return ptLista;
+    return NULL;
 }
 
 
@@ -190,8 +224,8 @@ ptLSE *destroi(ptLSE *ptLista){
 /** \brief Metodo que inicializa a lista alocando endereço de memória
  * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
 */
-ptLSE *inicializaLista(ptLSE *ptLista){
-	ptLista = (ptLSE *) malloc(sizeof(ptLSE));
+ptLDEC *inicializaLista(ptLDEC *ptLista){
+	ptLista = (ptLDEC *) malloc(sizeof(ptLDEC));
 	return ptLista;
 }
 
@@ -200,7 +234,7 @@ ptLSE *inicializaLista(ptLSE *ptLista){
  * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
  * \return retorna o ponteiro para a posicao de memoria do ultimo no da lista
 */
-ptLSE *retornaUltimoNo(ptLSE *ptLista){
+ptLDEC *retornaUltimoNo(ptLDEC *ptLista){
 	return ptLista->ant;     // retorna a posição de memória do último nó da lista
 }
 
@@ -208,8 +242,8 @@ ptLSE *retornaUltimoNo(ptLSE *ptLista){
  * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
  * \return retorna o ponteiro para a posicao que ocupa o meio da lista
 */
-ptLSE *retornaNoMeio(ptLSE *ptLista){
-	ptLSE *aux;         // Ponteiro auxiliar que serve para iterar a lista
+ptLDEC *retornaNoMeio(ptLDEC *ptLista){
+	ptLDEC *aux;         // Ponteiro auxiliar que serve para iterar a lista
 	aux = ptLista;      // Ponteiro auxiliar assume o valor do ponteiro para a LSE
 	int numNos = 0;     // variável que armazenará o número de nós
 	int indiceNo = 0;   // variável que armazenará o índice (quantas iterações que deverão ser feitas para encontrar) do nó do meio
@@ -235,7 +269,7 @@ ptLSE *retornaNoMeio(ptLSE *ptLista){
 /** \brief Limpa o console em linux e windows */
 void clear_screen()
 {
-#ifdef WINDOWS
+#ifdef _WIN32
     system("cls");
 #else
     // Assume POSIX
