@@ -6,7 +6,8 @@
  *  Dessa forma, o programa tem uma lista de uma estrutura dada, e o programa deverá:
  *  1) Inserir os elementos na lista.
  *	2) Exibir a lista.
- *	3) Destruir a lista.
+ *  3) Exibir a lista inversa a partir da posição de um número dado pelo usuário
+ *	4) Destruir a lista.
  *  Para a inserção, o programa receberá como entrada um ponteiro e um número.
  * Se o número for positivo e par, o programa deve inseri-lo no início da lista;
  * se o número for positivo e impar, inserir no final da lista; e se o número for negativo, inserir
@@ -122,6 +123,7 @@ ptLDEC *inserir(int numero, ptLDEC *ptLista){
                         ptLista->ant->prox = novo;      // O último elemento da lista terá como seu próximo elemento o novo início
                         novo->ant = ptLista->ant;       // o anterior do novo início será o anterior do antigo início da lista
         	        	novo->prox = ptLista;           // o novo início terá como sucessor o antigo início
+                        ptLista->ant = novo;
 		                ptLista = novo;                 // o ptLista apontará para o novo início
 
         	    	}
@@ -147,6 +149,7 @@ ptLDEC *inserir(int numero, ptLDEC *ptLista){
             aux = retornaNoMeio(ptLista);          // aux assumirá a posição (memória) do elemento do meio da lista
 			novo->prox = aux->prox;                // o próximo elemento do novo elemento será o próximo do elemento do meio
 			novo->ant = aux;                       // o elemento anterior do novo elemento será o próximo elemnto do meio
+			aux->prox->ant = novo;
 			aux->prox = novo;                      // o próximo elemento do meio será o novo elemento
 		}
 	}
@@ -182,14 +185,12 @@ void exibeInversoNum(ptLDEC *ptLista, int num){
         ptLDEC *aux = ptLista;
         ptLDEC *ptPosNum = NULL;
 
-
-        printf("To aqui caralho");
         do{
             if (aux->numero == num){
                 ptPosNum = aux;
             }
             aux = aux->prox;
-        } while ((aux != ptLista) || (ptPosNum != NULL));
+        } while ((aux != ptLista) || (ptPosNum == NULL));
 
         if (ptPosNum == NULL){
             printf("Numero nao encontrado na lista");
@@ -204,10 +205,10 @@ void exibeInversoNum(ptLDEC *ptLista, int num){
             } while (aux != ptPosNum);
             printf("----- FIM DA LISTA -----\n");
 
-            getchar(); //gambiarra para limpar o buffer e pausar a execução do programa em ambiente linux e windows.
-            getchar(); //Similar ao system("PAUSE");
 
         }
+        getchar(); //gambiarra para limpar o buffer e pausar a execução do programa em ambiente linux e windows.
+        getchar(); //Similar ao system("PAUSE");
     }
 }
 
