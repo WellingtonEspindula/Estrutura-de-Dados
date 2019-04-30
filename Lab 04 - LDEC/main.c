@@ -1,7 +1,7 @@
 /*
  *  O presente programa foi realizado para a disciplina de Estrutura de Dados,
  * ministrada pela Prof.ª Dr.ª Renata Galante, da Universidade Federal do Rio Grande do Sul.
- * Assim, o trabalho tem como finalidade a implementação de uma LSE (Lista Simplesmente Encadeada)
+ * Assim, o trabalho tem como finalidade a implementação de uma LDEC (Lista Duplamente Encadeada Circular)
  * utilizando ponteiros em C.
  *  Dessa forma, o programa tem uma lista de uma estrutura dada, e o programa deverá:
  *  1) Inserir os elementos na lista.
@@ -87,9 +87,9 @@ int main(){
 }
 
 
-/** \brief Método que insere elementos na LSE
+/** \brief Método que insere elementos na LDEC
  * \param numero - Numero inteiro que sera inserido na lista
- * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
  * \return Retorna lista com elementos inseridos
 */
 ptLDEC *inserir(int numero, ptLDEC *ptLista){
@@ -123,7 +123,7 @@ ptLDEC *inserir(int numero, ptLDEC *ptLista){
                         ptLista->ant->prox = novo;      // O último elemento da lista terá como seu próximo elemento o novo início
                         novo->ant = ptLista->ant;       // o anterior do novo início será o anterior do antigo início da lista
         	        	novo->prox = ptLista;           // o novo início terá como sucessor o antigo início
-                        ptLista->ant = novo;
+                        ptLista->ant = novo;            // o antigo início terá como seu antecessor o novo início
 		                ptLista = novo;                 // o ptLista apontará para o novo início
 
         	    	}
@@ -149,7 +149,7 @@ ptLDEC *inserir(int numero, ptLDEC *ptLista){
             aux = retornaNoMeio(ptLista);          // aux assumirá a posição (memória) do elemento do meio da lista
 			novo->prox = aux->prox;                // o próximo elemento do novo elemento será o próximo do elemento do meio
 			novo->ant = aux;                       // o elemento anterior do novo elemento será o próximo elemnto do meio
-			aux->prox->ant = novo;
+			aux->prox->ant = novo;                 // o elemento sucessor do elemento do meio terá como anterior o novo elemento
 			aux->prox = novo;                      // o próximo elemento do meio será o novo elemento
 		}
 	}
@@ -159,7 +159,7 @@ ptLDEC *inserir(int numero, ptLDEC *ptLista){
 }
 
 /** \brief Método que exibe a lista
- * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
 */
 void exibe(ptLDEC *ptLista){
 	ptLDEC *aux;
@@ -167,7 +167,7 @@ void exibe(ptLDEC *ptLista){
 
 	printf("\n----- LISTA -----\n");
 	/* Itera a lista, usando um ponteiro auxiliar, e exibe cada nó da lista */
-	if (ptLista != NULL){
+	if (ptLista != NULL){           // Verifica se a lista é nula para evitar erros
         do{
             printf("%d\n", aux->numero);
             aux = aux->prox;
@@ -180,26 +180,30 @@ void exibe(ptLDEC *ptLista){
 
 }
 
+/** \brief Método que exibe a lista de forma inversa iniciando a exibição pela posicao na lista de dado um numero
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
+ * \param num - Numero inteiro que sera buscado na lista e sera o pivo da exibicao da lista
+*/
 void exibeInversoNum(ptLDEC *ptLista, int num){
     if (ptLista != NULL){
-        ptLDEC *aux = ptLista;
-        ptLDEC *ptPosNum = NULL;
+        ptLDEC *aux = ptLista;          // auiliar que apontará para o início da lista
+        ptLDEC *ptPosNum = NULL;        // ponteiro para a posição de memória ocupada pelo número na lista
 
-        do{
-            if (aux->numero == num){
-                ptPosNum = aux;
+        do{                             // enquanto a lista não chegou ao fim ou o elemento não foi encontrado
+            if (aux->numero == num){    // verifica se o número da lista iterada é igual ao número entrado
+                ptPosNum = aux;         // caso sim, o ptPosNum assume a posição de memória
             }
-            aux = aux->prox;
+            aux = aux->prox;            // itera para o próximo elemento da lista
         } while ((aux != ptLista) || (ptPosNum == NULL));
 
-        if (ptPosNum == NULL){
+        if (ptPosNum == NULL){          // caso não tenha sido encontrado o número na lista, informa o usuário
             printf("Numero nao encontrado na lista");
-        } else{
-            aux = ptPosNum;
+        } else{                         // caso sim, exibe a lista do número até o sucessor do número em ordem inversa
+            aux = ptPosNum;             // aux aqui receberá a função de apontar para a posição do número na memória
 
             printf("\n----- LISTA -----\n");
             /* Itera a lista, usando um ponteiro auxiliar, e exibe cada nó da lista */
-            do {
+            do {                        // realiza operações de exibição enquanto não percorrer toda a lista (do ptPosNum até o sucessor do ptPosNum)
                 printf("%d\n", aux->numero);
                 aux = aux->ant;
             } while (aux != ptPosNum);
@@ -207,28 +211,28 @@ void exibeInversoNum(ptLDEC *ptLista, int num){
 
 
         }
-        getchar(); //gambiarra para limpar o buffer e pausar a execução do programa em ambiente linux e windows.
-        getchar(); //Similar ao system("PAUSE");
+        getchar();
+        getchar();
     }
 }
 
-/** \brief Método que destroi a lista e libera endereços de memoria alocados para a LSE
- * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
+/** \brief Método que destroi a lista e libera endereços de memoria alocados para a LDEC
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
  * \return Retorna um ponteiro para a lista com todos os laços destruidos e os elementos liberados da memória
 */
 ptLDEC *destroi(ptLDEC *ptLista){
-    if (ptLista != NULL){
-        ptLDEC *aux1 = ptLista;
+    if (ptLista != NULL){            // Verifica se a lista é nula para evitar erros
+        ptLDEC *aux1 = ptLista;      // auxiliar que recebe a primeira posição da lista
         ptLDEC *aux2;
 
-        do{
-            aux2 = aux1;
+        do{                         // enquanto não chegar ao fim da lista
+            aux2 = aux1;            // utiliza 2 auxiliares para guardar a informação da próxima posição e da posição atual da lista
             aux1 = aux1->prox;
-            free(aux2);
+            free(aux2);             // e liberar a memória da posição atual
         } while (aux1 != ptLista);
     }
 
-    return NULL;
+    return NULL;                    // retorna a lista como nula
 }
 
 
@@ -236,7 +240,7 @@ ptLDEC *destroi(ptLDEC *ptLista){
 /* Funcoes auxiliares */
 
 /** \brief Metodo que inicializa a lista alocando endereço de memória
- * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
 */
 ptLDEC *inicializaLista(ptLDEC *ptLista){
 	ptLista = (ptLDEC *) malloc(sizeof(ptLDEC));
@@ -245,7 +249,7 @@ ptLDEC *inicializaLista(ptLDEC *ptLista){
 
 /** OBSOLETO (DEPRECATED)
  * \brief Metodo que retorna o ultimo no da lista
- * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
  * \return retorna o ponteiro para a posicao de memoria do ultimo no da lista
 */
 ptLDEC *retornaUltimoNo(ptLDEC *ptLista){
@@ -253,12 +257,12 @@ ptLDEC *retornaUltimoNo(ptLDEC *ptLista){
 }
 
 /** \brief Metodo que retorna o Nó que está no meio da lista
- * \param *ptLista - Ponteiro para a primeira posicao da lista simplesmente encadeada
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
  * \return retorna o ponteiro para a posicao que ocupa o meio da lista
 */
 ptLDEC *retornaNoMeio(ptLDEC *ptLista){
 	ptLDEC *aux;         // Ponteiro auxiliar que serve para iterar a lista
-	aux = ptLista;      // Ponteiro auxiliar assume o valor do ponteiro para a LSE
+	aux = ptLista;      // Ponteiro auxiliar assume o valor do ponteiro para a LDEC
 	int numNos = 0;     // variável que armazenará o número de nós
 	int indiceNo = 0;   // variável que armazenará o índice (quantas iterações que deverão ser feitas para encontrar) do nó do meio
 
