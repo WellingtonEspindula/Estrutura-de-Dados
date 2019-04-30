@@ -66,13 +66,13 @@ int main(){
 				scanf("%d", &valor);
 				ptLista = inserir(valor, ptLista);
 				break;
-			case 2:
+            case 2:
+				exibe(ptLista);
+				break;
+			case 3:
 			    printf("Digite o numero:\n");
 				scanf("%d", &valor);
 				exibeInversoNum(ptLista, valor);
-				break;
-            case 3:
-				exibe(ptLista);
 				break;
 			case 4:
 				ptLista = destroi(ptLista);
@@ -182,6 +182,8 @@ void exibeInversoNum(ptLDEC *ptLista, int num){
         ptLDEC *aux = ptLista;
         ptLDEC *ptPosNum = NULL;
 
+
+        printf("To aqui caralho");
         do{
             if (aux->numero == num){
                 ptPosNum = aux;
@@ -189,12 +191,23 @@ void exibeInversoNum(ptLDEC *ptLista, int num){
             aux = aux->prox;
         } while ((aux != ptLista) || (ptPosNum != NULL));
 
-        aux = ptPosNum;
-        do {
-            printf("%d\n", aux->numero);
-            aux = aux->ant;
-        } while (aux != ptPosNum);
+        if (ptPosNum == NULL){
+            printf("Numero nao encontrado na lista");
+        } else{
+            aux = ptPosNum;
 
+            printf("\n----- LISTA -----\n");
+            /* Itera a lista, usando um ponteiro auxiliar, e exibe cada nó da lista */
+            do {
+                printf("%d\n", aux->numero);
+                aux = aux->ant;
+            } while (aux != ptPosNum);
+            printf("----- FIM DA LISTA -----\n");
+
+            getchar(); //gambiarra para limpar o buffer e pausar a execução do programa em ambiente linux e windows.
+            getchar(); //Similar ao system("PAUSE");
+
+        }
     }
 }
 
