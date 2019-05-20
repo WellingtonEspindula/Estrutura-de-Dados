@@ -4,15 +4,13 @@
  * Assim, o trabalho tem como finalidade a implementação de uma ABP (Árvore Binária de Pesquisa)
  * utilizando ponteiros em C.
  *  Dessa forma, o programa tem uma lista de uma estrutura dada, e o programa deverá:
- *       1. Função para	 inserção	 de	 nodos	 em	 uma	 ABP	 que	 armazene	 números inteiros.
- *  (Pegar	a	implementação	na	aula	sobre	ABP).
- *      2. Função	 que	 recebe	 como	 parâmetro	 uma	 árvore	(arv1)	 gerada	 pela	 função	 do
- *  exercício 1	e	dois	 valores	(valor1 e	valor2)	e	exiba	 os	 valores	 dos	 nodos	 do
- *  caminho	 para	 se	 chegar	 do	 nodo	 com	 o	valor1	ate	 o	 nodo	 com	 o	valor2.	Se	 não
- *  existir	 caminho,	 exibir	 essa	 informação	 para	 o	 usuário.	 Note	 que	 os	 ponteiros
- *  apontam	somente	da	raiz	para	as	folhas
- *      3. Função	 que	 recebe	 como	 parâmetro	 a	 árvore	 gerada	 no	 exercício	 1	 e	 um	 valor
- *  retorna	 o	 valor	 do	 nó	 da	 árvore	 que	 tenha	 o	 valor	 mais	 próximo	 do	 valor
+ *      1. Função para inserção de nodos em uma ABP que armazene números inteiros.
+ *      2. Função que recebe como parâmetro	uma	árvore (arv1) gerada pela função do
+ *  exercício 1 e dois valores (valor1 e valor2) e exiba os valores dos nodos do
+ *  caminho para se chegar do nodo com o valor1 ate o nodo com o valor2. Se não
+ *  existir	caminho, exibir essa informação para o usuário.
+ *      3. Função que recebe como parâmetro a árvore gerada no exercício 1 e um	 valor
+ *  retorna o valor do nó da árvore que tenha o	valor mais próximo do valor
  *  procurado.
  *
 */
