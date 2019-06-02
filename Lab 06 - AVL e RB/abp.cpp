@@ -275,14 +275,6 @@ int ehArvoreRN(pNodoA *a) {
         ehRN = ehArvoreRN(a->esq);    // verifica se o filho da esquerda eh RN
         ehRN = ehArvoreRN(a->dir);    // verifica se o flho da direita eh RN
 
-        printf("\na = %d\n", a->info);
-        printf("altura esquerda: %d\n", altura(a->esq));
-        printf("altura direita: %d\n", altura(a->dir));
-        printf("ehRN = %d\n", ehRN);
-//        printf("esq/dir = %d", ( altura(a->esq) % altura(a->dir) ));
-//        printf("dir/esq = %d", ( altura(a->dir) % altura(a->esq) ));
-//        system("PAUSE");
-
         /* VALIDACOES PARA A ARVORE NAO SER RUBRO-NEGRA */
         if ( (altura(a->esq) - altura(a->dir)) > 1 ) {
             if ( (2*altura(a->esq) > altura(a->dir)) ){

@@ -30,103 +30,128 @@
 #include <string.h>
 #include "abp.h"
 
-int main()
+
+/* MÉTODOS LOCAIS */
+void entrada_manual();
+void testes();
+void clear_screen();
+
+
+int main(){
+    int entrada;
+
+    do {
+        clear_screen();
+        printf("Digite:\n");
+        printf("0 - Sair\n");
+        printf("1 - Executar testes internos\n");
+        printf("2 - Testar manualmente\n");
+        scanf("%d", &entrada);
+        int valor;
+
+        switch (entrada)
+        {
+        case 1:
+            testes();
+            break;
+        case 2:
+            entrada_manual();
+            break;
+        }
+    }
+    while (entrada != 0);
+
+    return 0;
+}
+
+
+void entrada_manual(){
+    pNodoA *arv = NULL;
+    int entrada = 0;
+
+    clear_screen();
+    do {
+        printf("Entre com um valor a ser adicionado na arvore.\nDigite 0 para parar\n");
+        scanf("%d", &entrada);
+        printf("\n");
+
+        if (entrada != 0) {
+            // Testa o método InsereArvore
+            arv = InsereArvore(arv, entrada);
+        }
+    } while (entrada != 0);
+
+    // Testa o método FatorNodo
+    int nodo = 0;
+    printf("Digite o valor do nodo que quer encontrar o fator:\n");
+    scanf("%d", &nodo);
+    printf("A fator do nodo %d eh %d\n", nodo, fatorNodo(arv, nodo));
+
+    // Testa o método ehAVL
+    if (ehArvoreAVL(arv)){
+        printf("A arvore eh AVL\n");
+    } else {
+        printf("A arvore nao eh AVL\n");
+    }
+
+    // Testa o método ehRN
+    if (ehArvoreRN(arv)){
+        printf("A arvore eh RN\n");
+    } else {
+        printf("A arvore nao eh RN\n");
+    }
+
+    getchar();
+    getchar();
+}
+
+void testes(){
+    clear_screen();
+
+    pNodoA *arv = NULL;
+
+    // Testa o método InsereArvore
+    arv = InsereArvore(arv,35);
+    arv = InsereArvore(arv,02);
+    arv = InsereArvore(arv,06);
+    arv = InsereArvore(arv,28);
+    arv = InsereArvore(arv,71);
+    arv = InsereArvore(arv,73);
+    arv = InsereArvore(arv,49);
+    arv = InsereArvore(arv,44);
+    arv = InsereArvore(arv,50);
+
+    // Testa o método FatorNodo
+    printf("A fator do nodo %d eh %d\n", 2, fatorNodo(arv, 2));
+    printf("A fator do nodo %d eh %d\n", 71, fatorNodo(arv, 71));
+    printf("A fator do nodo %d eh %d\n", 35, fatorNodo(arv, 35));
+
+    // Testa o método ehAVL
+    if (ehArvoreAVL(arv)){
+        printf("A arvore eh AVL\n");
+    } else {
+        printf("A arvore nao eh AVL\n");
+    }
+
+    // Testa o método ehRN
+    if (ehArvoreRN(arv)){
+        printf("A arvore eh RN\n");
+    } else {
+        printf("A arvore nao eh RN\n");
+    }
+
+    getchar();
+    getchar();
+}
+
+
+/** \brief Limpa o console em linux e windows */
+void clear_screen()
 {
-   pNodoA *arv = NULL;
-   pNodoA *vazia = NULL;
-
-
-   // Testa o método InsereArvore
-   arv = InsereArvore(arv,35);
-   arv = InsereArvore(arv,02);
-   arv = InsereArvore(arv,06);
-   arv = InsereArvore(arv,28);
-   arv = InsereArvore(arv,71);
-   arv = InsereArvore(arv,73);
-   arv = InsereArvore(arv,49);
-   arv = InsereArvore(arv,44);
-   arv = InsereArvore(arv,50);
-   system("pause");
-
-//    Testa o método ehRN
-    printf("A arvore eh RN? %d\n\n", ehArvoreRN(arv));
-
-    // Testa o método InsereArvore
-    pNodoA *arv1 = NULL;
-    arv1 = InsereArvore(arv1,10);
-    arv1 = InsereArvore(arv1,5);
-    arv1 = InsereArvore(arv1,3);
-    arv1 = InsereArvore(arv1,6);
-    arv1 = InsereArvore(arv1,11);
-
-   // Testa o método ehRN
-    printf("A arvore 1 eh RN? %d\n\n", ehArvoreRN(arv1));
-
-
-    // Testa o método InsereArvore
-    pNodoA *arv2 = NULL;
-    arv2 = InsereArvore(arv2,50);
-    arv2 = InsereArvore(arv2,40);
-    arv2 = InsereArvore(arv2,60);
-    arv2 = InsereArvore(arv2,10);
-    arv2 = InsereArvore(arv2,45);
-
-   // Testa o método ehRN
-    printf("A arvore 2 eh RN? %d\n\n", ehArvoreRN(arv2));
-
-
-   // Testa o método FatorNodo
-//   printf("A fator do nodo %d eh %d\n", 2, fatorNodo(arv, 2));
-//   printf("A fator do nodo %d eh %d\n", 71, fatorNodo(arv, 71));
-//   printf("A fator do nodo %d eh %d\n", 35, fatorNodo(arv, 35));
-
-//    // Testa o método ehAVL
-//    printf("A arvore eh AVL? %d\n", ehArvoreAVL(arv));
-//
-//    pNodoA *arv1 = NULL;
-//    arv1 = InsereArvore(arv1,42);
-//    arv1 = InsereArvore(arv1,15);
-//    arv1 = InsereArvore(arv1,27);
-//    arv1 = InsereArvore(arv1,20);
-//    arv1 = InsereArvore(arv1,88);
-//    arv1 = InsereArvore(arv1,63);
-//    arv1 = InsereArvore(arv1,57);
-//    arv1 = InsereArvore(arv1,71);
-//
-//    // Testa o método ehAVL
-//    printf("A arvore 1 eh AVL? %d\n", ehArvoreAVL(arv1));
-//
-//    // TESTA O METODO ehAVL com uma arvore AVL
-//    pNodoA *arv2 = NULL;
-//    arv2 = InsereArvore(arv2,42);
-//    arv2 = InsereArvore(arv2,15);
-//    arv2 = InsereArvore(arv2,6);
-//    arv2 = InsereArvore(arv2,27);
-//    arv2 = InsereArvore(arv2,20);
-//    arv2 = InsereArvore(arv2,88);
-//    arv2 = InsereArvore(arv2,63);
-//    arv2 = InsereArvore(arv2,94);
-//    arv2 = InsereArvore(arv2,57);
-//    arv2 = InsereArvore(arv2,71);
-//
-//    // Testa o método ehAVL
-//    printf("A arvore 2 eh AVL? %d\n", ehArvoreAVL(arv2));
-
-   // Testa o método caminho
-   // caminho(arv, 45, 95);
-   // caminho(arv, 30, 25);
-   // caminho(arv, 30, 80);
-   // caminho(arv, 95, 45);
-   // caminho(arv, 25, 80);
-   // caminho(arv, 45, 100);
-   // caminho(vazia, 40, 50);
-   // system("pause");
-
-    // Testa o método valorMaisProximo
-   // printf("O valor mais proximo de %d na arvore e %d\n", 44, valorMaisProximo(arv, 44));
-   // printf("O valor mais proximo de %d na arvore e %d\n", 26, valorMaisProximo(arv, 26));
-   // printf("O valor mais proximo de %d na arvore e %d\n", 31, valorMaisProximo(arv, 31));
-   // printf("O valor mais proximo de %d na arvore e %d\n", 92, valorMaisProximo(arv, 92));
-   // printf("O valor mais proximo de %d na arvore e %d\n", 100, valorMaisProximo(arv, 100));
-   // printf("O valor mais proximo de %d na arvore e %d\n", 82, valorMaisProximo(arv, 82));
+#ifdef _WIN32
+    system("cls");
+#else
+    // Assume POSIX
+    system("clear");
+#endif
 }
