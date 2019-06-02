@@ -63,6 +63,18 @@ int main()
     printf("A arvore 1 eh RN? %d\n\n", ehArvoreRN(arv1));
 
 
+    // Testa o método InsereArvore
+    pNodoA *arv2 = NULL;
+    arv2 = InsereArvore(arv2,50);
+    arv2 = InsereArvore(arv2,40);
+    arv2 = InsereArvore(arv2,60);
+    arv2 = InsereArvore(arv2,10);
+    arv2 = InsereArvore(arv2,45);
+
+   // Testa o método ehRN
+    printf("A arvore 2 eh RN? %d\n\n", ehArvoreRN(arv2));
+
+
    // Testa o método FatorNodo
 //   printf("A fator do nodo %d eh %d\n", 2, fatorNodo(arv, 2));
 //   printf("A fator do nodo %d eh %d\n", 71, fatorNodo(arv, 71));
