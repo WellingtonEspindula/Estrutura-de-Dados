@@ -236,6 +236,7 @@ int fatorNodo(pNodoA *a, tipoinfo chave) {
 
 
 /** \brief Retorna se a arvore eh uma AVL
+ *
  * \param *a - Ponteiro do tipo pNodo para a raiz da arvore
  * \return Retorna 1 se a arvore for AVL; 0 caso a arvore nao seja AVL
  *
@@ -262,12 +263,13 @@ int ehArvoreAVL(pNodoA *a) {
 
 
 /** \brief Retorna se a arvore eh Rubro-Negra
+ *
  * \param *a - Ponteiro do tipo pNodo para a raiz da arvore
  * \return Retorna 1 se a arvore for rubro-negra; 0 caso a arvore nao seja RN
  *
  */
 int ehArvoreRN(pNodoA *a) {
-    static int ehRN = TRUE;    // variavel estatica que servira como flag para saber se a arvore eh AVL
+    static int ehRN = TRUE;    // variavel estatica que servira como flag para saber se a arvore eh RN
 
     if (a == NULL){             // se o nodo for nulo
         return ehRN;           // retorna o valor atual de ehRN
@@ -276,12 +278,12 @@ int ehArvoreRN(pNodoA *a) {
         ehRN = ehArvoreRN(a->dir);    // verifica se o flho da direita eh RN
 
         /* VALIDACOES PARA A ARVORE NAO SER RUBRO-NEGRA */
-        if ( (altura(a->esq) - altura(a->dir)) > 1 ) {
-            if ( (2*altura(a->esq) > altura(a->dir)) ){
-                return FALSE;                               // retorna falso
+        if ( (altura(a->esq) - altura(a->dir)) > 1 ) {          // Verifica se o fator da subarvore eh maior que 1 e verifica se o ramo com maior altura eh o esquerdo)
+            if ( (altura(a->esq) > 2*altura(a->dir)) ){         // Verifica se a altura da subarvore esquerda (ramo maior) eh maior que o dobro da altura da subarvore direita (ramo menor)
+                return FALSE;                                   // retorna falso
             }
-        } else if ( (altura(a->dir) - altura(a->esq)) > 1 ) {
-            if ( (2*altura(a->dir) > altura(a->esq)) ){
+        } else if ( (altura(a->dir) - altura(a->esq)) > 1 ) {   // Verifica se o fator da subarvore eh maior que 1 e verifica se o ramo com maior altura eh o direito)
+            if ( (altura(a->dir) > 2*altura(a->esq)) ){         // Verifica se a altura da subarvore direita (ramo maior) eh maior que o dobro da altura da subarvore esquerda (ramo menor)
                 return FALSE;                               // retorna falso
             }
         }
@@ -291,4 +293,3 @@ int ehArvoreRN(pNodoA *a) {
     ehRN = TRUE;       // restaura o estado da variavel estatica para a proxima utilizacao do metodo
     return aux;         // retorna o estado de ehRN
 }
-
