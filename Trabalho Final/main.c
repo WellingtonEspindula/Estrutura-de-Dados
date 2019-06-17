@@ -9,6 +9,7 @@ HEADER
 #include <stdbool.h>
 #include <string.h>
 #include "DataStructs/tweet.h"
+#include "DataStructs/top_hashtags.h"
 
 void initializeOperations(FILE *operationsFile);
 void readEntryFile(FILE *entryFile);
@@ -25,24 +26,41 @@ char HASHTAG_OP_G[280];
 
 int main(int argc, char **argv){
     /* Tenta abrir os arquivos de entrada de dados, de operacoes e de saida */
-    FILE *entry = fopen(argv[1], "r");
-    if (entry == NULL){
-        printf("Arquivo %s nao encontrado!\n", argv[1]);
-    }
+    // FILE *entry = fopen(argv[1], "r");
+    // if (entry == NULL){
+    //     printf("Arquivo %s nao encontrado!\n", argv[1]);
+    // }
 
-    FILE *operations = fopen(argv[2], "r");
-    if (operations == NULL){
-        printf("Arquivo %s nao encontrado!\n", argv[2]);
-    }
+    // FILE *operations = fopen(argv[2], "r");
+    // if (operations == NULL){
+    //     printf("Arquivo %s nao encontrado!\n", argv[2]);
+    // }
 
-    FILE *output = fopen(argv[3], "w");
-    if (output == NULL){
-        printf("Arquivo %s nao encontrado!\n", argv[3]);
-    }
+    // FILE *output = fopen(argv[3], "w");
+    // if (output == NULL){
+    //     printf("Arquivo %s nao encontrado!\n", argv[3]);
+    // }
     
 
-    initializeOperations(operations);
-    readEntryFile(entry);
+    // initializeOperations(operations);
+    // readEntryFile(entry);
+
+
+    HashtagTL *hashtagTopList;
+    insert(hashtagTopList, "#abc");
+    insert(hashtagTopList, "#abd");
+    insert(hashtagTopList, "#ad");
+    insert(hashtagTopList, "#abcd");
+    show(hashtagTopList);
+
+
+
+
+
+
+
+
+
 
 
     // printf("Operations:\n");

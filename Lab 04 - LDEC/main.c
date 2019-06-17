@@ -1,16 +1,16 @@
 /*
  *  O presente programa foi realizado para a disciplina de Estrutura de Dados,
- * ministrada pela Prof.™ Dr.™ Renata Galante, da Universidade Federal do Rio Grande do Sul.
- * Assim, o trabalho tem como finalidade a implementaÁ„o de uma LDEC (Lista Duplamente Encadeada Circular)
+ * ministrada pela Prof.¬™ Dr.¬™ Renata Galante, da Universidade Federal do Rio Grande do Sul.
+ * Assim, o trabalho tem como finalidade a implementa√ß√£o de uma LDEC (Lista Duplamente Encadeada Circular)
  * utilizando ponteiros em C.
- *  Dessa forma, o programa tem uma lista de uma estrutura dada, e o programa dever·:
+ *  Dessa forma, o programa tem uma lista de uma estrutura dada, e o programa dever√°:
  *  1) Inserir os elementos na lista.
  *	2) Exibir a lista.
- *  3) Exibir a lista inversa a partir da posiÁ„o de um n˙mero dado pelo usu·rio
+ *  3) Exibir a lista inversa a partir da posi√ß√£o de um n√∫mero dado pelo usu√°rio
  *	4) Destruir a lista.
- *  Para a inserÁ„o, o programa receber· como entrada um ponteiro e um n˙mero.
- * Se o n˙mero for positivo e par, o programa deve inseri-lo no inÌcio da lista;
- * se o n˙mero for positivo e impar, inserir no final da lista; e se o n˙mero for negativo, inserir
+ *  Para a inser√ß√£o, o programa receber√° como entrada um ponteiro e um n√∫mero.
+ * Se o n√∫mero for positivo e par, o programa deve inseri-lo no in√≠cio da lista;
+ * se o n√∫mero for positivo e impar, inserir no final da lista; e se o n√∫mero for negativo, inserir
  * no meio da lista.
  */
 
@@ -35,7 +35,7 @@ struct tipoNo
     ptLDEC *prox;
 };
 
-//PROT”TIPOS
+//PROT√ìTIPOS
 ptLDEC *inserir(int numero, ptLDEC *ptLista);
 void exibe(ptLDEC *ptLista);
 void exibeInversoNum(ptLDEC *ptLista, int num);
@@ -86,28 +86,28 @@ int main()
     }
     while (entrada != 0);
 
-    destroi(ptLista);   //DestrÛi lista antes de terminar o programa
+    destroi(ptLista);   //Destr√≥i lista antes de terminar o programa
 
     return 0;
 }
 
 
-/** \brief MÈtodo que insere elementos na LDEC
+/** \brief M√©todo que insere elementos na LDEC
  * \param numero - Numero inteiro que sera inserido na lista
  * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
  * \return Retorna lista com elementos inseridos
 */
 ptLDEC *inserir(int numero, ptLDEC *ptLista)
 {
-    // Novo elemento que ser· inserido na lista
+    // Novo elemento que ser√° inserido na lista
     ptLDEC *novo;
-    // aloca memÛria para o elemento
+    // aloca mem√≥ria para o elemento
     novo = (ptLDEC*) malloc(sizeof(ptLDEC));
-    // adiciona o n˙mero na estrutura apontada pelo ponteiro
+    // adiciona o n√∫mero na estrutura apontada pelo ponteiro
     novo->numero = numero;
 
-    /* Caso a lista esteja vazia, indica que a lista ser· composta
-    unicamente pelo elemento criado acima e aponta para uma prÛxima posiÁ„o nula*/
+    /* Caso a lista esteja vazia, indica que a lista ser√° composta
+    unicamente pelo elemento criado acima e aponta para uma pr√≥xima posi√ß√£o nula*/
 
     if (ptLista == NULL)
     {
@@ -119,51 +119,51 @@ ptLDEC *inserir(int numero, ptLDEC *ptLista)
     else
     {
 
-        /* Caso a lista n„o esteja vazia */
+        /* Caso a lista n√£o esteja vazia */
 
         if (numero >= 0)
         {
             if ( (numero % 2) == 0)
             {
 
-                /* Se o n˙mero for positivo e par, insere no topo da lista.
-                    Ou seja, indica que a primeira posiÁ„o ser· o novo elemento,
-                    e a prÛxima do novo elemento apontar· pra lista j· criada */
+                /* Se o n√∫mero for positivo e par, insere no topo da lista.
+                    Ou seja, indica que a primeira posi√ß√£o ser√° o novo elemento,
+                    e a pr√≥xima do novo elemento apontar√° pra lista j√° criada */
 
-                // O novo elemento ser· o novo topo ou novo inÌcio da lista
-                ptLista->ant->prox = novo;      // O ˙ltimo elemento da lista ter· como seu prÛximo elemento o novo inÌcio
-                novo->ant = ptLista->ant;       // o anterior do novo inÌcio ser· o anterior do antigo inÌcio da lista
-                novo->prox = ptLista;           // o novo inÌcio ter· como sucessor o antigo inÌcio
-                ptLista->ant = novo;            // o antigo inÌcio ter· como seu antecessor o novo inÌcio
-                ptLista = novo;                 // o ptLista apontar· para o novo inÌcio
+                // O novo elemento ser√° o novo topo ou novo in√≠cio da lista
+                ptLista->ant->prox = novo;      // O √∫ltimo elemento da lista ter√° como seu pr√≥ximo elemento o novo in√≠cio
+                novo->ant = ptLista->ant;       // o anterior do novo in√≠cio ser√° o anterior do antigo in√≠cio da lista
+                novo->prox = ptLista;           // o novo in√≠cio ter√° como sucessor o antigo in√≠cio
+                ptLista->ant = novo;            // o antigo in√≠cio ter√° como seu antecessor o novo in√≠cio
+                ptLista = novo;                 // o ptLista apontar√° para o novo in√≠cio
 
             }
             else
             {
 
-                /* Se o n˙mero for positivo e Ìmpar, o novo ocupar· a ˙ltima posiÁ„o da lista.
-                    E o prÛximo elemento do novo apontar· para uma prÛxima posiÁ„o nula */
+                /* Se o n√∫mero for positivo e √≠mpar, o novo ocupar√° a √∫ltima posi√ß√£o da lista.
+                    E o pr√≥ximo elemento do novo apontar√° para uma pr√≥xima posi√ß√£o nula */
 
-                // Novo elemento ser· o novo fim
-                ptLista->ant->prox = novo;      // O antigo fim ter· como prÛxima posiÁ„o o novo elemento
-                novo->ant = ptLista->ant;       // O novo elemento ter· como posiÁ„o anterior o antigo fim
-                novo->prox = ptLista;           // O novo elemento ter· como prÛxima posiÁ„o o inÌcio da lista
-                ptLista->ant = novo;            // A posiÁ„o anterior do inÌcio da lista ser· o novo fim
+                // Novo elemento ser√° o novo fim
+                ptLista->ant->prox = novo;      // O antigo fim ter√° como pr√≥xima posi√ß√£o o novo elemento
+                novo->ant = ptLista->ant;       // O novo elemento ter√° como posi√ß√£o anterior o antigo fim
+                novo->prox = ptLista;           // O novo elemento ter√° como pr√≥xima posi√ß√£o o in√≠cio da lista
+                ptLista->ant = novo;            // A posi√ß√£o anterior do in√≠cio da lista ser√° o novo fim
 
             }
         }
         else
         {
 
-            /* Caso o n˙mero for negativo, insere no meio da lista.
-            	Assim, pega o nÛ do meio da lista, e usando um ponteiro auxiliar, o pıe no meio */
+            /* Caso o n√∫mero for negativo, insere no meio da lista.
+            	Assim, pega o n√≥ do meio da lista, e usando um ponteiro auxiliar, o p√µe no meio */
 
             ptLDEC *aux;
-            aux = retornaNoMeio(ptLista);          // aux assumir· a posiÁ„o (memÛria) do elemento do meio da lista
-            novo->prox = aux->prox;                // o prÛximo elemento do novo elemento ser· o prÛximo do elemento do meio
-            novo->ant = aux;                       // o elemento anterior do novo elemento ser· o prÛximo elemnto do meio
-            aux->prox->ant = novo;                 // o elemento sucessor do elemento do meio ter· como anterior o novo elemento
-            aux->prox = novo;                      // o prÛximo elemento do meio ser· o novo elemento
+            aux = retornaNoMeio(ptLista);          // aux assumir√° a posi√ß√£o (mem√≥ria) do elemento do meio da lista
+            novo->prox = aux->prox;                // o pr√≥ximo elemento do novo elemento ser√° o pr√≥ximo do elemento do meio
+            novo->ant = aux;                       // o elemento anterior do novo elemento ser√° o pr√≥ximo elemnto do meio
+            aux->prox->ant = novo;                 // o elemento sucessor do elemento do meio ter√° como anterior o novo elemento
+            aux->prox = novo;                      // o pr√≥ximo elemento do meio ser√° o novo elemento
         }
     }
 
@@ -171,7 +171,7 @@ ptLDEC *inserir(int numero, ptLDEC *ptLista)
     return ptLista;
 }
 
-/** \brief MÈtodo que exibe a lista
+/** \brief M√©todo que exibe a lista
  * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
 */
 void exibe(ptLDEC *ptLista)
@@ -180,8 +180,8 @@ void exibe(ptLDEC *ptLista)
     aux = ptLista;
 
     printf("\n----- LISTA -----\n");
-    /* Itera a lista, usando um ponteiro auxiliar, e exibe cada nÛ da lista */
-    if (ptLista != NULL)            // Verifica se a lista È nula para evitar erros
+    /* Itera a lista, usando um ponteiro auxiliar, e exibe cada n√≥ da lista */
+    if (ptLista != NULL)            // Verifica se a lista √© nula para evitar erros
     {
         do
         {
@@ -192,12 +192,12 @@ void exibe(ptLDEC *ptLista)
     }
     printf("----- FIM DA LISTA -----\n");
 
-    getchar(); //gambiarra para limpar o buffer e pausar a execuÁ„o do programa em ambiente linux e windows.
+    getchar(); //gambiarra para limpar o buffer e pausar a execu√ß√£o do programa em ambiente linux e windows.
     getchar(); //Similar ao system("PAUSE");
 
 }
 
-/** \brief MÈtodo que exibe a lista de forma inversa iniciando a exibiÁ„o pela posicao na lista de dado um numero
+/** \brief M√©todo que exibe a lista de forma inversa iniciando a exibi√ß√£o pela posicao na lista de dado um numero
  * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
  * \param num - Numero inteiro que sera buscado na lista e sera o pivo da exibicao da lista
 */
@@ -205,30 +205,30 @@ void exibeInversoNum(ptLDEC *ptLista, int num)
 {
     if (ptLista != NULL)
     {
-        ptLDEC *aux = ptLista;          // auiliar que apontar· para o inÌcio da lista
-        ptLDEC *ptPosNum = NULL;        // ponteiro para a posiÁ„o de memÛria ocupada pelo n˙mero na lista
+        ptLDEC *aux = ptLista;          // auiliar que apontar√° para o in√≠cio da lista
+        ptLDEC *ptPosNum = NULL;        // ponteiro para a posi√ß√£o de mem√≥ria ocupada pelo n√∫mero na lista
 
-        do                              // enquanto a lista n„o chegou ao fim ou o elemento n„o foi encontrado
+        do                              // enquanto a lista n√£o chegou ao fim ou o elemento n√£o foi encontrado
         {
-            if (aux->numero == num)     // verifica se o n˙mero da lista iterada È igual ao n˙mero entrado
+            if (aux->numero == num)     // verifica se o n√∫mero da lista iterada √© igual ao n√∫mero entrado
             {
-                ptPosNum = aux;         // caso sim, o ptPosNum assume a posiÁ„o de memÛria
+                ptPosNum = aux;         // caso sim, o ptPosNum assume a posi√ß√£o de mem√≥ria
             }
-            aux = aux->prox;            // itera para o prÛximo elemento da lista
+            aux = aux->prox;            // itera para o pr√≥ximo elemento da lista
         }
         while ((aux != ptLista) || (ptPosNum == NULL));
 
-        if (ptPosNum == NULL)           // caso n„o tenha sido encontrado o n˙mero na lista, informa o usu·rio
+        if (ptPosNum == NULL)           // caso n√£o tenha sido encontrado o n√∫mero na lista, informa o usu√°rio
         {
             printf("Numero nao encontrado na lista");
         }
-        else                            // caso sim, exibe a lista do n˙mero atÈ o sucessor do n˙mero em ordem inversa
+        else                            // caso sim, exibe a lista do n√∫mero at√© o sucessor do n√∫mero em ordem inversa
         {
-            aux = ptPosNum;             // aux aqui receber· a funÁ„o de apontar para a posiÁ„o do n˙mero na memÛria
+            aux = ptPosNum;             // aux aqui receber√° a fun√ß√£o de apontar para a posi√ß√£o do n√∫mero na mem√≥ria
 
             printf("\n----- LISTA -----\n");
-            /* Itera a lista, usando um ponteiro auxiliar, e exibe cada nÛ da lista */
-            do                          // realiza operaÁıes de exibiÁ„o enquanto n„o percorrer toda a lista (do ptPosNum atÈ o sucessor do ptPosNum)
+            /* Itera a lista, usando um ponteiro auxiliar, e exibe cada n√≥ da lista */
+            do                          // realiza opera√ß√µes de exibi√ß√£o enquanto n√£o percorrer toda a lista (do ptPosNum at√© o sucessor do ptPosNum)
             {
                 printf("%d\n", aux->numero);
                 aux = aux->ant;
@@ -243,22 +243,22 @@ void exibeInversoNum(ptLDEC *ptLista, int num)
     }
 }
 
-/** \brief MÈtodo que destroi a lista e libera endereÁos de memoria alocados para a LDEC
+/** \brief M√©todo que destroi a lista e libera endere√ßos de memoria alocados para a LDEC
  * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
- * \return Retorna um ponteiro para a lista com todos os laÁos destruidos e os elementos liberados da memÛria
+ * \return Retorna um ponteiro para a lista com todos os la√ßos destruidos e os elementos liberados da mem√≥ria
 */
 ptLDEC *destroi(ptLDEC *ptLista)
 {
-    if (ptLista != NULL)             // Verifica se a lista È nula para evitar erros
+    if (ptLista != NULL)             // Verifica se a lista √© nula para evitar erros
     {
-        ptLDEC *aux1 = ptLista;      // auxiliar que recebe a primeira posiÁ„o da lista
+        ptLDEC *aux1 = ptLista;      // auxiliar que recebe a primeira posi√ß√£o da lista
         ptLDEC *aux2;
 
-        do                          // enquanto n„o chegar ao fim da lista
+        do                          // enquanto n√£o chegar ao fim da lista
         {
-            aux2 = aux1;            // utiliza 2 auxiliares para guardar a informaÁ„o da prÛxima posiÁ„o e da posiÁ„o atual da lista
+            aux2 = aux1;            // utiliza 2 auxiliares para guardar a informa√ß√£o da pr√≥xima posi√ß√£o e da posi√ß√£o atual da lista
             aux1 = aux1->prox;
-            free(aux2);             // e liberar a memÛria da posiÁ„o atual
+            free(aux2);             // e liberar a mem√≥ria da posi√ß√£o atual
         }
         while (aux1 != ptLista);
     }
@@ -270,7 +270,7 @@ ptLDEC *destroi(ptLDEC *ptLista)
 
 /* Funcoes auxiliares */
 
-/** \brief Metodo que inicializa a lista alocando endereÁo de memÛria
+/** \brief Metodo que inicializa a lista alocando endere√ßo de mem√≥ria
  * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
 */
 ptLDEC *inicializaLista(ptLDEC *ptLista)
@@ -286,10 +286,10 @@ ptLDEC *inicializaLista(ptLDEC *ptLista)
 */
 ptLDEC *retornaUltimoNo(ptLDEC *ptLista)
 {
-    return ptLista->ant;     // retorna a posiÁ„o de memÛria do ˙ltimo nÛ da lista
+    return ptLista->ant;     // retorna a posi√ß√£o de mem√≥ria do √∫ltimo n√≥ da lista
 }
 
-/** \brief Metodo que retorna o NÛ que est· no meio da lista
+/** \brief Metodo que retorna o N√≥ que est√° no meio da lista
  * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
  * \return retorna o ponteiro para a posicao que ocupa o meio da lista
 */
@@ -297,10 +297,10 @@ ptLDEC *retornaNoMeio(ptLDEC *ptLista)
 {
     ptLDEC *aux;         // Ponteiro auxiliar que serve para iterar a lista
     aux = ptLista;      // Ponteiro auxiliar assume o valor do ponteiro para a LDEC
-    int numNos = 0;     // vari·vel que armazenar· o n˙mero de nÛs
-    int indiceNo = 0;   // vari·vel que armazenar· o Ìndice (quantas iteraÁıes que dever„o ser feitas para encontrar) do nÛ do meio
+    int numNos = 0;     // vari√°vel que armazenar√° o n√∫mero de n√≥s
+    int indiceNo = 0;   // vari√°vel que armazenar√° o √≠ndice (quantas itera√ß√µes que dever√£o ser feitas para encontrar) do n√≥ do meio
 
-    /* Aqui encontra o n˙mero de nÛs da lista */
+    /* Aqui encontra o n√∫mero de n√≥s da lista */
     do
     {
         aux = aux->prox;
@@ -308,17 +308,17 @@ ptLDEC *retornaNoMeio(ptLDEC *ptLista)
     }
     while ( aux != ptLista );
 
-    /* Aqui faz o c·lculo de quantas iteraÁıes dever„o ser feitas para encontrar o nÛ do meio.
-        Usa-se o floor para, caso a lista tenha um n˙mero Ìmpares de elementos, encontrar o nÛ do elemento anterior ao elemento central  */
+    /* Aqui faz o c√°lculo de quantas itera√ß√µes dever√£o ser feitas para encontrar o n√≥ do meio.
+        Usa-se o floor para, caso a lista tenha um n√∫mero √≠mpares de elementos, encontrar o n√≥ do elemento anterior ao elemento central  */
     indiceNo = (int) floor(numNos / 2);
-    aux = ptLista;      // o auxiliar assume novamente o valor do ponteiro para o primeiro elemento da lista, para, assim, iter·-lo atÈ encontrar o nÛ do meio
+    aux = ptLista;      // o auxiliar assume novamente o valor do ponteiro para o primeiro elemento da lista, para, assim, iter√°-lo at√© encontrar o n√≥ do meio
 
     for (int i = 0; i < (indiceNo - 1); i++)
     {
         aux = aux->prox;
     }
 
-    return aux;         // retorna a posiÁ„o de memÛria do nÛ do meio
+    return aux;         // retorna a posi√ß√£o de mem√≥ria do n√≥ do meio
 }
 
 /** \brief Limpa o console em linux e windows */

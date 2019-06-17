@@ -1,23 +1,48 @@
-/* Estrutura base para a árvore splay usada para encontrar as
+/* Estrutura base para a lista duplamente encadeada circular usada para encontrar as
 hashtags mais citadas  */
-struct HashtagsSplayTree {
+struct HashtagTopList {
         char hashtag[280];
         int count;
-        struct HashtagsSplayTree *esq;
-        struct HashtagsSplayTree *dir;
+        struct HashtagTopList *prev;
+        struct HashtagTopList *next;
 };
-typedef struct HashtagsSplayTree PtrHashtagST;
+typedef struct HashtagTopList HashtagTL;
 
 /* Funcoes */
-PtrHashtagST* New(char *hashtag, int count, PtrHashtagST* esq, PtrHashtagST* dir);
-PtrHashtagST* Insert(char *hashtag, PtrHashtagST* t);
-PtrHashtagST* Splay(PtrHashtagST* t, char *hashtag);
-PtrHashtagST* Select(PtrHashtagST* t, char *hashtag);
-PtrHashtagST* Remove(PtrHashtagST* t, char *hashtag);
-void Destroy(PtrHashtagST* t);
 
-/* Funcoes Auxiliares */
-PtrHashtagST* RotEsq(PtrHashtagST* t);
-PtrHashtagST* RotDir(PtrHashtagST* t);
-// void Desenha(PtNodo* t , int nivel);
-PtrHashtagST* ConsultaSplay(PtrHashtagST* t, char *hashtag);
+
+/** \brief Metodo que inicializa a lista alocando endereço de memória
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
+*/
+HashtagTL *initialize(HashtagTL *ptHashtag);
+
+
+/* TODO  */
+HashtagTL *select(HashtagTL *ptHashtag, char *hashtag);
+
+/* TODO  */
+HashtagTL *hashtagOcurrence(HashtagTL *ptHashtag, char *hashtag);
+
+/** \brief Método que insere elementos na LDEC
+ * \param *ptHashtag - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
+ * \param *hashtag - string da hashtag que sera inserida na lista
+ * \return Retorna lista com elementos inseridos
+*/
+HashtagTL *insert(HashtagTL *ptHashtag, char *hashtag){
+
+/* TODO */
+HashtagTL *remove(HashtagTL *ptHashtag, char *hashtag);
+
+/** \brief Método que destroi a lista e libera endereços de memoria alocados para a LDEC
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
+ * \return Retorna um ponteiro para a lista com todos os laços destruidos e os elementos liberados da memória
+*/
+HashtagTL *destroy(HashtagTL *ptLista);
+
+
+/* Auxiliares */
+
+/** \brief Método que exibe a lista
+ * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada Circular
+*/
+void show(HashtagTL *ptLista);
