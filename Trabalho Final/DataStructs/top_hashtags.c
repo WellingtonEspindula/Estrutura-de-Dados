@@ -1,40 +1,90 @@
+#include "top_hashtags.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "top_hashtags.h"
 
 /** \brief Metodo que inicializa a lista alocando endereço de memória
  * \param *ptLista - Ponteiro para a primeira posicao da Lista Duplamente Encadeada
 */
-HashtagTL *initialize(HashtagTL *ptHashtag){
+HashtagTL* initializeHTL(HashtagTL *ptHashtag){
   ptHashtag = (HashtagTL *) malloc(sizeof(HashtagTL));
   return ptHashtag;
 }
 
 
-HashtagTL *select(HashtagTL *ptHashtag, char *hashtag){
-  while (ptHashtag != NULL)
-  {
-    if (strcmp(ptHashtag->hashtag, hashtag) == 0){
-      return ptHashtag;
-    }  
-    ptHashtag = ptHashtag->next;
+HashtagTL* selectHTL(HashtagTL *ptHashtag, char *hashtag){
+  if (ptHashtag != NULL){
+    HashtagTL *aux = ptHashtag;
+    
+    do {
+      if (strcmp(aux->hashtag, hashtag) == 0){
+        return aux;
+      }  
+      aux = aux->next;
+    } while (aux != ptHashtag);
   }
 
   return NULL;
   
 }
 
-HashtagTL *hashtagOcurrence(HashtagTL *ptHashtag, char *hashtag){
-  if (select(ptHashtag, hashtag) != NULL){
+HashtagTL* hashtagOcurrence(HashtagTL *ptHashtag, char *hashtag){
+  HashtagTL *selectedHashtag = selectHTL(ptHashtag, hashtag);
+  if (selectedHashtag != NULL){
+
+    selectedHashtag->count++;
+    HashtagTL *aux = selectedHashtag;
+
+    if (selectedHashtag == ptHashtag){
+      return ptHashtag;
+    }
+    if (selectedHashtag->count > ptHashtag->count){
+        selectedHashtag->prev->next = selectedHashtag->next;
+        selectedHashtag->next->prev = selectedHashtag->prev;
+
+        ptHashtag->prev->next = selectedHashtag;
+        selectedHashtag->prev = ptHashtag->prev;
+        selectedHashtag->next = ptHashtag;
+        return selectedHashtag;
+
+    } else {
+      do{
+        aux = aux->prev;
+
+        if (strcmp(aux->hashtag, hashtag) > 0){      // Caso a hashtag a ser inserida seja "maior" que a hashtag atual
+            if (strcmp(aux->prev->hashtag, hashtag) < 0){   // Caso a hashtag a ser inserida seja "menor" que a hashtag anterior
+              /* Achou a posicao */
+              
+              /* Retira a hashtag selecionada da sua posicao original*/
+              selectedHashtag->prev->next = selectedHashtag->next;
+              selectedHashtag->next->prev = selectedHashtag->prev;
+
+              /* Insere no meio da hashtag "maior" e hashtag "menor" */
+              selectedHashtag->next = aux->next;                        
+              selectedHashtag->prev = aux;                              
+              aux->next->prev = selectedHashtag;                        
+              aux->next = selectedHashtag;  
+              return ptHashtag;                 
+
+                //               aux = aux->prev;
+                // new->next = aux->next;                        
+                // new->prev = aux;                              
+                // aux->next->prev = new;                        
+                // aux->next = new;             
+            }
+          }          
+      } while ((aux->count <= selectedHashtag->count) && 
+      (aux != selectedHashtag));
+    }
     
+
   } else {
-    return insert(ptHashtag, hashtag);
+    return insertHTL(ptHashtag, hashtag);
   }
 }
 
 
-HashtagTL *insert(HashtagTL *ptHashtag, char *hashtag){
+HashtagTL* insertHTL(HashtagTL *ptHashtag, char *hashtag){
     // Novo elemento que será inserido na lista
     HashtagTL *new;
     // aloca memória para o elemento
@@ -54,14 +104,15 @@ HashtagTL *insert(HashtagTL *ptHashtag, char *hashtag){
     }
     else
     {
+
         /* Caso a lista não esteja vazia, procura a posicao na qual a hashtag se enquada (ordem alfabetica) */
-        HashtagTL *aux = ptHashtag;
-        while ( (aux->count < 1) || (aux->prev == ptHashtag) ) 
+        HashtagTL *aux = ptHashtag->prev;
+        while ( (aux->count <= 1) && (aux != ptHashtag) ) 
         {
           if (strcmp(aux->hashtag, hashtag) == 0){            // Caso a hashtag ja tenha sido inserida
             return ptHashtag;                                 // retorna a lista sem alteracoes
-          } else if (strcmp(aux->hashtag, hashtag) < 0){      // Caso a hashtag a ser inserida seja "maior" que a hashtag atual
-              if (strcmp(aux->prev->hashtag, hashtag) > 0){   // Caso a hashtag a ser inserida seja "menor" que a hashtag anterior
+          } else if (strcmp(aux->hashtag, hashtag) > 0){      // Caso a hashtag a ser inserida seja "maior" que a hashtag atual
+              if (strcmp(aux->prev->hashtag, hashtag) < 0){   // Caso a hashtag a ser inserida seja "menor" que a hashtag anterior
                 /* Aqui devera ser inserida a hashtag */
                 
                 /* Insere no meio da hashtag "maior" e hashtag "menor" */
@@ -74,17 +125,25 @@ HashtagTL *insert(HashtagTL *ptHashtag, char *hashtag){
               }
           }
           aux = aux->prev;
-        }     
+        }
+        ptHashtag->prev->next = new;
+        new->prev = ptHashtag->prev;
+        ptHashtag->prev = new;
+        new->next = ptHashtag;
+        return ptHashtag;     
     }
+    return NULL;
 }
 
 
-HashtagTL *remove(HashtagTL *ptHashtag, char *hashtag){
-
+HashtagTL* removeHTL(HashtagTL *ptHashtag, char *hashtag){
+  /* TODO */
+  return NULL;
 }
 
 
-HashtagTL *destroy(HashtagTL *ptLista){
+/* TODO improves*/
+HashtagTL* destroyHTL(HashtagTL *ptLista){
     if (ptLista != NULL)             // Verifica se a lista é nula para evitar erros
     {
         HashtagTL *aux1 = ptLista;   // auxiliar que recebe a primeira posição da lista
@@ -104,7 +163,7 @@ HashtagTL *destroy(HashtagTL *ptLista){
 
 
 /* Auxiliares */
-void show(HashtagTL *ptLista){
+void showHTL(HashtagTL *ptLista){
     HashtagTL *aux;
     aux = ptLista;
 
@@ -121,7 +180,6 @@ void show(HashtagTL *ptLista){
     }
     printf("----- FIM DA LISTA -----\n");
 
-    getchar(); //gambiarra para limpar o buffer e pausar a execução do programa em ambiente linux e windows.
     getchar(); //Similar ao system("PAUSE");
 }
 

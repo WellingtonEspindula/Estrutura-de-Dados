@@ -8,11 +8,13 @@ HEADER
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "DataStructs/tweet.h"
 #include "DataStructs/top_hashtags.h"
+#include "DataStructs/tweet.h"
 
 void initializeOperations(FILE *operationsFile);
 void readEntryFile(FILE *entryFile);
+
+void processOpA(HashtagTL **hashtagTopList, Tweet tt);
 
 
 int LIMIT_OP_A = -1;
@@ -26,32 +28,44 @@ char HASHTAG_OP_G[280];
 
 int main(int argc, char **argv){
     /* Tenta abrir os arquivos de entrada de dados, de operacoes e de saida */
-    // FILE *entry = fopen(argv[1], "r");
-    // if (entry == NULL){
-    //     printf("Arquivo %s nao encontrado!\n", argv[1]);
-    // }
+    FILE *entry = fopen(argv[1], "r");
+    if (entry == NULL){
+        printf("Arquivo %s nao encontrado!\n", argv[1]);
+    }
 
-    // FILE *operations = fopen(argv[2], "r");
-    // if (operations == NULL){
-    //     printf("Arquivo %s nao encontrado!\n", argv[2]);
-    // }
+    FILE *operations = fopen(argv[2], "r");
+    if (operations == NULL){
+        printf("Arquivo %s nao encontrado!\n", argv[2]);
+    }
 
-    // FILE *output = fopen(argv[3], "w");
-    // if (output == NULL){
-    //     printf("Arquivo %s nao encontrado!\n", argv[3]);
-    // }
+    FILE *output = fopen(argv[3], "w");
+    if (output == NULL){
+        printf("Arquivo %s nao encontrado!\n", argv[3]);
+    }
     
 
-    // initializeOperations(operations);
-    // readEntryFile(entry);
+    initializeOperations(operations);
+    readEntryFile(entry);
 
 
-    HashtagTL *hashtagTopList;
-    insert(hashtagTopList, "#abc");
-    insert(hashtagTopList, "#abd");
-    insert(hashtagTopList, "#ad");
-    insert(hashtagTopList, "#abcd");
-    show(hashtagTopList);
+    // HashtagTL *hashtagTopList;
+    // hashtagTopList = hashtagOcurrence(hashtagTopList, "#abc");
+    // showHTL(hashtagTopList);
+    // hashtagTopList = hashtagOcurrence(hashtagTopList, "#abd");
+    // showHTL(hashtagTopList);
+    // hashtagTopList = hashtagOcurrence(hashtagTopList, "#ad");
+    // showHTL(hashtagTopList);
+    // hashtagTopList = hashtagOcurrence(hashtagTopList, "#abcd");
+    // showHTL(hashtagTopList);
+    // hashtagTopList = hashtagOcurrence(hashtagTopList, "#abc");
+    // showHTL(hashtagTopList);
+
+    // hashtagTopList = destroyHTL(hashtagTopList);
+    // showHTL(hashtagTopList);
+
+
+
+
 
 
 
@@ -125,15 +139,38 @@ void initializeOperations(FILE *operationsFile){
     }
 }
 
-
 void readEntryFile(FILE *entryFile){
     char line[500];
+
+    HashtagTL *hashtagTopList;
+
     while (fgets(line, 280, entryFile) != NULL) {
         Tweet tt = readTwitte(line);
-        printf("Nome: %s\n",  tt.user);
-        printf("Texto: %s\n", tt.text);
-        printf("RTs: %d\n",   tt.rtCount);
-        printf("Favs: %d\n\n",  tt.favCount);
+        if (LIMIT_OP_A != -1){
+            processOpA(&hashtagTopList, tt);
+        }
+
+
+        // printf("Nome: %s\n",  tt.user);
+        // printf("Texto: %s\n", tt.text);
+        // printf("RTs: %d\n",   tt.rtCount);
+        // printf("Favs: %d\n\n",  tt.favCount);
     }
 
+    showHTL(hashtagTopList);
+}
+
+void processOpA(HashtagTL **hashtagTopList, Tweet tt){    
+    char hashtag[280];
+    char *ptHashtag;
+    char *rest;
+
+    printf("ta aqueee");
+    ptHashtag = strchr(tt.text, '#');
+    while (ptHashtag != NULL){
+        strcpy(hashtag, strtok_r(ptHashtag, " ", &rest));
+        *hashtagTopList = hashtagOcurrence(*hashtagTopList, hashtag);
+        showHTL(*hashtagTopList);
+        ptHashtag = strchr(rest, '#');
+    }    
 }
